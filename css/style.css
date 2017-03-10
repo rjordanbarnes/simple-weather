@@ -1,5 +1,4 @@
 body {
-	background-image: url("http://static.pexels.com/wp-content/uploads/2014/06/clouds-colorful-colourful-1029.jpg");
 	background-size: cover;
 	color: white;
 	text-align: center;
@@ -17,6 +16,6 @@ body {
 	padding: 10px;
 }
 
-.weather div {
-	text-transform: capitalize;
+.weather span {
+	vertical-align: middle;
 }
