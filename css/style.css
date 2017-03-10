@@ -1,0 +1,22 @@
+body {
+  background-image: url("http://static.pexels.com/wp-content/uploads/2014/06/clouds-colorful-colourful-1029.jpg");
+  background-size: cover;
+  color: white;
+  text-align: center;
+  text-shadow: 0 2px 3px black, 2px 0 3px black;
+  font-size: 3em;
+}
+
+.weather {
+  position: absolute;
+  background-color: rgba(0,0,0,.3);
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px;
+}
+
+.weather div {
+  text-transform: capitalize;
+}
