@@ -1,50 +1,43 @@
-var currentTemp;
+var currentTempF;
+var currentTempC;
 var currentUnit;
 
+// Toggles between Fahrenheit and Celsius
 function toggleUnit() {
 	if (currentUnit == "F") {
 		currentUnit = "C";
-		$(".temp").text(KtoC(currentTemp) + "℃");
+		$(".temp").text(currentTempC + "℃");
 	} else {
 		currentUnit = "F";
-		$(".temp").text(KtoF(currentTemp) + "℉");
+		$(".temp").text(currentTempF + "℉");
 	}
 }
 
-function KtoF(temp) {
-	// Converts K to F rounded to nearest tenth
-	return Math.round((temp * 9/5 - 459.67) * 10) / 10;
-}
-
-function KtoC(temp) {
-	// Conerts K to C rounded to nearest tenth.
-	return Math.round((temp - 273.15) * 10) / 10;
-}
-
+// Displays the current temperature and weather condition using Apixu API
 function displayWeather(lat, lon) {
-	var appID = "57cdf7fbd3fa1760fe92d89712829e9a";
+	var appID = "4168736e4cf34f0da41175828171003";
 
-	$.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + appID, function(data) {
+	$.getJSON("https://api.apixu.com/v1/current.json?key=" + appID + "&q=" + lat + "," + lon, function(data) {
 		$(".sentenceStart").text("It's");
-		$(".weather img").attr("src", "http://openweathermap.org/img/w/"+ data["weather"][0]["icon"] + ".png");
-		currentTemp = data["main"]["temp"];
-		$(".temp").text(KtoF(currentTemp) + "℉");
+		$(".weather img").attr("src", data.current.condition.icon);
+		currentTempF = data.current.temp_f;
+		currentTempC = data.current.temp_c;
 		currentUnit = "F";
-		$(".location").text("in " + data["name"]);
-		$(".weather div").text("(" + data["weather"][0]["description"] + ")");
+		$(".temp").text(currentTempF + "℉");
+		$(".location").text("in " + data.location.name);
+		$(".weather div").text("(" + data.current.condition.text + ")");
 	});
 }
 
 var main = function() {
-
 	$(".temp").click(toggleUnit);
 
 	if ("geolocation" in navigator) {
-	navigator.geolocation.getCurrentPosition(function(position) {
-		displayWeather(position.coords.latitude, position.coords.longitude);
-	});
+		navigator.geolocation.getCurrentPosition(function(position) {
+			displayWeather(position.coords.latitude, position.coords.longitude);
+		});
 	} else {
-		$(".weather").html("Couldn't get weather data");
+		$(".weather").html("Couldn't retrieve weather data");
 	}
 };
 
